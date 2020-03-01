@@ -16,9 +16,10 @@ class ApplicationController < Sinatra::Base
   get('/account') {@user = User.find(session[:user_id]); erb :account}
 
   post '/signup' do
-    redirect '/failure' if params[:username].strip == ""
-    user = User.new(username: params[:username], password: params[:password])
-    redirect '/login' if user.save
+    if params[:username].strip != ""
+      user = User.new(username: params[:username], password: params[:password])
+      redirect '/login' if user.save
+    end
     redirect '/failure'
   end
 
